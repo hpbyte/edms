@@ -19,12 +19,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        // requests number
-        $numReq = count(User::where('status',false)->get());
-        View::share('requests',$numReq);
-        // trash noti
-        $trash = count(Document::where('isExpire',2)->get());
-        View::share('trashfull',$trash);
+        if(Schema::hasTable('users')){
+            // requests number
+            $numReq = count(User::where('status',false)->get());
+            View::share('requests',$numReq);
+        }
+        if (Schema::hasTable('document')){
+            // trash noti
+            $trash = count(Document::where('isExpire',2)->get());
+            View::share('trashfull',$trash);
+        }
+
     }
 
     /**
